@@ -11,10 +11,10 @@ $(document).ready(function(){
                 amountlot: {required: true, min:1},
                 currency: {required: true},
                 price: {required: true,min: 0.00001},
-                stoploss: {required: true},
-                stopprice: {required: true,min: 0.00001},
-                takeprofit: {required: true},
-                takeprice: {required: true,min: 0.00001},
+                stoploss: {required: false},
+                stopprice: {required: false},
+                takeprofit: {required: false},
+                takeprice: {required: false},
                 sumtotal: {required: true,min: 0.00001},
                 brokerrevenue: {required: true,min: 0.00001}
             },
@@ -52,6 +52,28 @@ $(document).ready(function(){
         });
     });
 
+    $('select[name="company"]').change(function(){
+        console.log($(this).val());
+        var obj = {ajax_companyid: $(this).val(),
+            ajax_exchid: $('select[name="exchange"]').val()};
+        console.log(obj);
+        $.post('ajax_quotes.php',obj,function(data){
+            console.log(data);
+            if(data == 'Error 402'){
+                $('select[name="quote"]').empty();
+                $('select[name="quote"]').parent().append('<label class="error">No such quote</label>');
+            }else{
+                var result = $.parseJSON(data);
+                var quote = $('select[name="quote"]');
+                quote.empty();
+                for (var i = 0; i < result.length; i++){
+                    quote.append('<option value="' + result[i].qid + '">' + result[i].quoteName + '</option>');
+                }
+            }
+        });
+    });
+
     // bind datepicker
     $('input[name="ordate"]').datepicker({dateFormat: 'yy-mm-dd'});
+
 });

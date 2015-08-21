@@ -20,9 +20,9 @@
 					<form action="" method="post">
 						<div class="exchange">
 							<?php 
-								htmlout($exchange->name);
+								htmlout($exchange->getName());
 							?>
-							<input type="hidden" name="id" value="<?php htmlout($exchange->id); ?>">
+							<input type="hidden" name="id" value="<?php htmlout($exchange->getId()); ?>">
 							<input type="submit" name="action" value="Edit">
 							<input type="submit" name="action" value="Delete">
 						</div>

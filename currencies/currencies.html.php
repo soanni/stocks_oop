@@ -19,10 +19,10 @@
 				<li>
 					<form action="" method="post">
 						<div>
-							<?php htmlout($currency->name.' '); ?>
-							<?php htmlout($currency->acronym.' '); ?>
-							<?php htmlout($currency->country); ?>
-							<input type="hidden" name="id" value="<?php echo $currency->id; ?>"></th>
+							<?php htmlout($currency->getCurrencyName().' '); ?>
+							<?php htmlout($currency->getCurrencyAcronym().' '); ?>
+							<?php htmlout($currency->getCurrencyCountry()); ?>
+							<input type="hidden" name="id" value="<?php echo $currency->getCurrencyId(); ?>"></th>
 							<input type="submit" name="action" value="Edit">
 							<input type="submit" name="action" value="Delete">
 						</div>

@@ -1,5 +1,5 @@
 <?php
-    include '../helpers/lib.php';
+    require_once '../classes/Country.php';
 	// ADD AND EDIT COUNTRIES
 	
 	// ADD

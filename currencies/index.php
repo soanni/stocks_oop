@@ -1,5 +1,6 @@
 <?php
-    include '../helpers/lib.php';
+    require_once '../classes/Currency.php';
+    require_once '../classes/Country.php';
 	// SELECT LIST OF COUNTRIES
 
     $countries = Country::getCountries();

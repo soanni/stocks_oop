@@ -1,4 +1,117 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php'; ?>
+<?php
+    include '../helpers/db_new.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Date.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Validator.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Currency.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Exchange.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Company.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Quote.php';
+
+    $date = new Pos_Date();
+    $now = $date->mysql;
+    $exchanges = Exchange::getExchanges();
+    $companies = Company::getCompanies();
+    $quotes = Quote::getQuotes();
+    $currencies = Currency::getCurrencies();
+    $missing = null;
+    $errors = null;
+    if(isset($_POST['submit_order'])){
+//        if(is_numeric($_POST['amount']) && is_numeric($_POST['amountlot'])
+//            && is_numeric($_POST['price']) && is_numeric($_POST['stopprice'])
+//            && is_numeric($_POST['takeprice']) && is_numeric($_POST['sumtotal'])
+//            && is_numeric($_POST['brokerrevenue'])){
+
+            $required = array('ordate','ortype','exchange','company','quote','amount'
+                            ,'amountlot','currency','price','sumtotal','brokerrevenue');
+            $valid = new Pos_Validator($required);
+            $valid->isInt('amount',1);
+            $valid->isInt('amountlot',1);
+            $valid->isFloat('price');
+            $valid->isFloat('sumtotal');
+            $valid->isFloat('brokerrevenue');
+            $valid->isFloat('stopprice');
+            $valid->isFloat('takeprice');
+            $valid->removeTags('comment');
+            $valid->useEntities('comment');
+
+            $insertOK = false;
+            $redirect = 'http://localhost/stocks_oop/dashboard/index.php';
+            $stoploss = isset($_POST['stoploss'])?1:0;
+            $takeprofit = isset($_POST['takeprofit'])?1:0;
+            $sql = "INSERT INTO orders
+                            (ordate,
+                            ortype,
+                            brokerid,
+                            exchid,
+                            companyid,
+                            qid,
+                            amount,
+                            currencyid,
+                            price,
+                            stoploss,
+                            stopprice,
+                            takeprofit,
+                            takeprice,
+                            amountlot,
+                            total,
+                            brokerrevenue,
+                            orcomment,
+                            parentid,
+                            changedate)
+                        VALUES
+                            (:ordate,
+                            :ortype,
+                            1,
+                            :exchid,
+                            :companyid,
+                            :qid,
+                            :amount,
+                            :currencyid,
+                            :price,
+                            :stoploss,
+                            :stopprice,
+                            :takeprofit,
+                            :takeprice,
+                            :amountlot,
+                            :total,
+                            :brokerrevenue,
+                            :orcomment,
+                            NULL,
+                            NOW())";
+            try{
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':ordate',$_POST['ordate']);
+                $stmt->bindParam(':ortype',$_POST['ortype']);
+                $stmt->bindParam(':exchid',$_POST['exchange']);
+                $stmt->bindParam(':companyid',$_POST['company']);
+                $stmt->bindParam(':qid',$_POST['quote']);
+                $stmt->bindParam(':amount',$_POST['amount']);
+                $stmt->bindParam(':currencyid',$_POST['currency']);
+                $stmt->bindParam(':price',$_POST['price']);
+                $stmt->bindParam(':amountlot',$_POST['amountlot']);
+                $stmt->bindParam(':stoploss',$stoploss);
+                $stmt->bindParam(':stopprice',$_POST['stopprice']);
+                $stmt->bindParam(':takeprofit',$takeprofit);
+                $stmt->bindParam(':takeprice',$_POST['takeprice']);
+                $stmt->bindParam(':total',$_POST['sumtotal']);
+                $stmt->bindParam(':brokerrevenue',$_POST['brokerrevenue']);
+                $stmt->bindParam(':orcomment',$_POST['comment']);
+                $stmt->execute();
+                $insertOK = $stmt->rowCount();
+            }catch(PDOException $e){
+                $error = 'Error adding submitted order.' . $e->getMessage();
+                //include 'error.html.php';
+                //exit();
+            }
+            if($OK){
+                header("Location: $redirect");
+                exit();
+            }
+
+        //}
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -8,10 +121,22 @@
         <link href = "../js/jquery-ui/jquery-ui.min.css" rel = "stylesheet" type = "text/css" />
     </head>
     <body>
+        <?php
+            if(isset($error)){
+                echo "<p>$error</p>";
+            }
+        ?>
         <form id="addorder" action="" method="post">
             <div>
                 <label for = "ordate">Order date:</label>
-                <input type="text" name="ordate" id="ordate" value="<?php htmlout($ordate);?>">
+                <input type="text" name="ordate" id="ordate"
+                       value="<?php
+                                   if(isset($ordate) && $ordate != ''){
+                                       htmlout($ordate);
+                                   }else{
+                                       echo $now;
+                                   }
+                               ?>">
             </div>
             <div>
                 <label for="ortype">Order type:</label>
@@ -19,15 +144,16 @@
                     <option value="">Select one</option>
                     <option value="1"
                         <?php
-                        if ($ortype == 1){
-                            echo ' selected';
-                        }
+                            if ($ortype == 1){
+                                echo ' selected';
+                            }
                         ?>>Buy</option>
-                    <option value="2"<?php
-                    if ($ortype == 2){
-                        echo ' selected';
-                    }
-                    ?>>Sell</option>
+                    <option value="2"
+                        <?php
+                            if ($ortype == 2){
+                                echo ' selected';
+                            }
+                        ?>>Sell</option>
                 </select>
             </div>
             <div>
@@ -35,14 +161,14 @@
                 <select name = "exchange" id="exchange">
                     <option value="">Select one</option>
                     <?php foreach ($exchanges as $exchange): ?>
-                        <option value="<?php htmlout($exchange['id']); ?>"
+                        <option value="<?php htmlout($exchange->getId()); ?>"
                             <?php
-                            if ($exchange['id'] == $exchangeid){
-                                echo ' selected';
-                            }
+                                if ($exchange->getId() == $exchangeid){
+                                    echo ' selected';
+                                }
                             ?>>
                             <?php
-                            htmlout($exchange['name']);
+                                htmlout($exchange->getName());
                             ?>
                         </option>
                     <?php endforeach; ?>
@@ -53,14 +179,14 @@
                 <select name = "company" id="company">
                     <option value="">Select one</option>
                     <?php foreach ($companies as $company): ?>
-                        <option value="<?php htmlout($company['id']); ?>"
+                        <option value="<?php htmlout($company->getCompanyId()); ?>"
                             <?php
-                            if ($company['id'] == $companyid){
+                            if ($company->getCompanyId() == $companyid){
                                 echo ' selected';
                             }
                             ?>>
                             <?php
-                            htmlout($company['name']);
+                            htmlout($company->getCompanyName());
                             ?>
                         </option>
                     <?php endforeach; ?>
@@ -71,14 +197,14 @@
                 <select name = "quote" id="quote">
                     <option value="">Select one</option>
                     <?php foreach ($quotes as $quote): ?>
-                        <option value="<?php htmlout($quote['qid']); ?>"
+                        <option value="<?php htmlout($quote->getQid()); ?>"
                             <?php
-                            if ($quote['qid'] == $quoteid){
+                            if ($quote->getQid() == $quoteid){
                                 echo ' selected';
                             }
                             ?>>
                             <?php
-                            htmlout($quote['fullname']);
+                            htmlout($quote->getQuoteName());
                             ?>
                         </option>
                     <?php endforeach; ?>
@@ -97,14 +223,14 @@
                 <select name = "currency" id="currency">
                     <option value="">Select one</option>
                     <?php foreach ($currencies as $currency): ?>
-                        <option value="<?php htmlout($currency['id']); ?>"
+                        <option value="<?php htmlout($currency->getCurrencyid()); ?>"
                             <?php
-                            if ($currency['id'] == $currencyid){
+                            if ($currency->getCurrencyid() == $currencyid){
                                 echo ' selected';
                             }
                             ?>>
                             <?php
-                            htmlout($currency['name']);
+                            htmlout($currency->getCurrencyName());
                             ?>
                         </option>
                     <?php endforeach; ?>
@@ -155,7 +281,7 @@
             <div>
                 <input type="hidden" name="orderid" value="<?php htmlout($orderid); ?>">
                 <button type="reset">Reset</button>
-                <button type="submit" value="<?php htmlout($button); ?>">Submit</button>
+                <button type="submit" name="submit_order" value="<?php htmlout($button); ?>">Submit</button>
             </div>
         </form>
 

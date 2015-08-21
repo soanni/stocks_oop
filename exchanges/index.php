@@ -1,6 +1,6 @@
 <?php
     include $_SERVER['DOCUMENT_ROOT'] . '/includes/db_new.inc.php';
-    include '../helpers/lib.php';
+    require_once '../classes/Exchange.php';
     include_once $_SERVER['DOCUMENT_ROOT'] . '/includes/magicquotes.inc.php';
 
 	

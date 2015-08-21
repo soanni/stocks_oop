@@ -19,9 +19,9 @@
 				<li>
 					<form action="" method="post">
 						<div>
-							<?php htmlout($country->name.' '); ?>
-							<?php htmlout($country->acronym); ?>
-							<input type="hidden" name="id" value="<?php echo $country->id; ?>"></th>
+							<?php htmlout($country->getCountryName().' '); ?>
+							<?php htmlout($country->getCountryAcronym()); ?>
+							<input type="hidden" name="id" value="<?php echo $country->getCountryId(); ?>"></th>
 							<input type="submit" name="action" value="Edit">
 							<input type="submit" name="action" value="Delete">
 						</div>
