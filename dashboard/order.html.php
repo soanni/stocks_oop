@@ -65,7 +65,8 @@
                         brokerrevenue,
                         orcomment,
                         parentid,
-                        changedate)
+                        changedate,
+                        activeflag)
                     VALUES
                         (:ordate,
                         :ortype,
@@ -85,7 +86,8 @@
                         :brokerrevenue,
                         :orcomment,
                         NULL,
-                        NOW())";
+                        NOW(),
+                        1)";
             try{
                 $stmt = $pdo->prepare($sql);
                 $stmt->bindParam(':ordate',$_POST['ordate']);
@@ -441,7 +443,7 @@
                         }else {
                             htmlout($brokerrevenue);
                         }
-                    ?>">
+                    ?>" step="<?php htmlout($step);?>">
             </div>
             <div>
                 <label for="comment"

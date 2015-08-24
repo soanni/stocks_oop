@@ -83,9 +83,9 @@ class Pos_Date extends DateTime {
     }
 
     public function setFromMySQL($MySQLDate){
-        $arr = preg_split('{-/ :.}',$EuroDate);
+        $arr = preg_split('{[-/ :.]}',$MySQLDate);
         if(!is_array($arr) || count($arr) != 3){
-            throw new Exception("setDMY expects date in YYYY-MM-DD format");
+            throw new Exception("setFromMySQL expects date in YYYY-MM-DD format");
         }
         $this->setDate($arr[0],$arr[1],$arr[2]);
     }

@@ -1,7 +1,16 @@
+<?php
+    require_once('../helpers/db_new.inc.php');
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
+    require_once('../classes/Company.php');
+    require_once('../classes/Quote.php');
+    require_once('../classes/Order.php');
+    require_once('../classes/Date.php');
+    $orders = Order::getOrders();
+?>
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Current open positions</title>
+        <title>List of orders</title>
         <link href = "../css/style.css" rel = "stylesheet" type = "text/css" />
     </head>
     <body>
@@ -15,11 +24,58 @@
         <table>
             <thead>
                 <tr>
-                    <td>SECID</td>
-                    <td>Amount</td>
-                    <td>TotalPrice</td>
+                    <th>Order date</th>
+                    <th>SECID</th>
+                    <th>Ortype</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Amount lots</th>
+                    <th>S/L</th>
+                    <th>S/L Price</th>
+                    <th>T/P</th>
+                    <th>T/P Price</th>
+                    <th>Total</th>
+                    <th>Broker revenue</th>
+                    <th>Comment</th>
                 </tr>
             </thead>
+            <tbody>
+                <?php foreach($orders as $order){?>
+                    <tr>
+                        <td><?php
+                                $date = new Pos_Date();
+                                $date->setFromMySQL(substr($order->_ordate,0,strrpos($order->_ordate,' ')));
+                                htmlout($date->dmy0);
+                            ?></td>
+                        <td><?php htmlout($order->_acronym);?></td>
+                        <td><?php if($order->_ortype == 1){
+                                        echo 'Buy';
+                                    }elseif($order->_ortype == 2){
+                                        echo 'Sell';
+                                    }
+                                    ?></td>
+                        <td><?php htmlout((float)$order->_price);?></td>
+                        <td><?php htmlout((int)$order->_amount);?></td>
+                        <td><?php htmlout((int)$order->_amountLot);?></td>
+                        <td><?php if($order->_stopLoss){
+                                        echo 'Yes';
+                                    }else{
+                                        echo 'No';
+                                    }
+                                    ?></td>
+                        <td><?php htmlout((float)$order->_stopPrice);?></td>
+                        <td><?php if($order->_takeProfit){
+                                        echo 'Yes';
+                                    } else{
+                                        echo 'No';
+                                    }?></td>
+                        <td><?php htmlout((float)$order->_takePrice);?></td>
+                        <td><?php htmlout((float)$order->_sumTotal);?></td>
+                        <td><?php htmlout((float)$order->_brokerRevenue);?></td>
+                        <td><?php htmlout($order->_orcomment);?></td>
+                    </tr>
+                <?php } ?>
+            </tbody>
         </table>
     </body>
 </html>

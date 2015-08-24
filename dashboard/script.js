@@ -66,11 +66,30 @@ $(document).ready(function(){
                 var result = $.parseJSON(data);
                 var quote = $('select[name="quote"]');
                 quote.empty();
+                quote.append('<option value="">Select one</option>');
                 for (var i = 0; i < result.length; i++){
                     quote.append('<option value="' + result[i].qid + '">' + result[i].quoteName + '</option>');
                 }
             }
         });
+    });
+
+    $('input[name="amount"]').change(function(){
+        var price = $('input[name="price"]').val();
+        if(price > 0){
+            var sum = $(this).val() * price;
+            $('input[name="sumtotal"]').val(sum);
+            $('input[name="brokerrevenue"]').val(sum * 0.057 / 100);
+        }
+    });
+
+    $('input[name="price"]').change(function(){
+        var amount = $('input[name="amount"]').val();
+        if(amount > 0){
+            var sum = $(this).val() * amount;
+            $('input[name="sumtotal"]').val(sum);
+            $('input[name="brokerrevenue"]').val(sum * 0.057 / 100);
+        }
     });
 
     // bind datepicker

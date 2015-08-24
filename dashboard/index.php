@@ -12,7 +12,7 @@
         $amountlot = 0;
         $currencyid = 0;
         $price = 0;
-        $step = 1;
+        $step = '0.000001';
         $stoploss = 0;
         $stopprice = 0;
         $takeprofit = 0;
