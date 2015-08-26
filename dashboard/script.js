@@ -78,8 +78,8 @@ $(document).ready(function(){
         var price = $('input[name="price"]').val();
         if(price > 0){
             var sum = $(this).val() * price;
-            $('input[name="sumtotal"]').val(sum);
-            $('input[name="brokerrevenue"]').val(sum * 0.057 / 100);
+            $('output[name="sumtotal"]').val(sum);
+            $('output[name="brokerrevenue"]').val(sum * 0.057 / 100);
         }
     });
 
@@ -87,8 +87,8 @@ $(document).ready(function(){
         var amount = $('input[name="amount"]').val();
         if(amount > 0){
             var sum = $(this).val() * amount;
-            $('input[name="sumtotal"]').val(sum);
-            $('input[name="brokerrevenue"]').val(sum * 0.057 / 100);
+            $('output[name="sumtotal"]').val(sum);
+            $('output[name="brokerrevenue"]').val(sum * 0.057 / 100);
         }
     });
 

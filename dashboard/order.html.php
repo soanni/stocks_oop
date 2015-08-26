@@ -165,7 +165,7 @@
                                    }else{
                                        echo $now;
                                    }
-                               ?>">
+                               ?>" autofocus>
             </div>
             <div>
                 <label for="ortype"
@@ -422,13 +422,13 @@
                             echo "<span class='warning'>" . $errors['sumtotal'] . "</span>";
                         }
                     ?>>Sum total: </label>
-                <input type="number" name="sumtotal" id="sumtotal" value="<?php
+                <output for ="amount price" name="sumtotal" id="sumtotal"><?php
                         if(isset($_POST['sumtotal']) && !$insertOK){
                             echo (int)$_POST['sumtotal'];
                         }else {
                             htmlout($sumtotal);
                         }
-                    ?>">
+                    ?></output>
             </div>
             <div>
                 <label for="brokerrevenue"
@@ -437,13 +437,13 @@
                             echo "<span class='warning'>" . $errors['brokerrevenue'] . "</span>";
                         }
                     ?>>Broker revenue: </label>
-                <input type="number" name="brokerrevenue" id="brokerrevenue" value="<?php
+                <output name="brokerrevenue" id="brokerrevenue"><?php
                         if(isset($_POST['brokerrevenue']) && !$insertOK){
                             echo (int)$_POST['brokerrevenue'];
                         }else {
                             htmlout($brokerrevenue);
                         }
-                    ?>" step="<?php htmlout($step);?>">
+                    ?></output>
             </div>
             <div>
                 <label for="comment"
@@ -452,11 +452,9 @@
                             echo "<span class='warning'>" . $errors['comment'] . "</span>";
                         }
                     ?>>Comment:</label>
-                <textarea name="comment" rows="10" cols="60"><?php
+                <textarea name="comment" rows="10" cols="60" placeholder="Comment..."><?php
                         if(isset($_POST['comment'])){
                             echo trim($_POST['comment']);
-                        }else{
-                            echo 'Comment...';
                         }
                     ?></textarea>
             </div>
