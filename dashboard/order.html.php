@@ -422,13 +422,13 @@
                             echo "<span class='warning'>" . $errors['sumtotal'] . "</span>";
                         }
                     ?>>Sum total: </label>
-                <output for ="amount price" name="sumtotal" id="sumtotal"><?php
+                <input name="sumtotal" id="sumtotal" value ="<?php
                         if(isset($_POST['sumtotal']) && !$insertOK){
                             echo (int)$_POST['sumtotal'];
                         }else {
                             htmlout($sumtotal);
                         }
-                    ?></output>
+                    ?>" readonly>
             </div>
             <div>
                 <label for="brokerrevenue"
@@ -437,13 +437,13 @@
                             echo "<span class='warning'>" . $errors['brokerrevenue'] . "</span>";
                         }
                     ?>>Broker revenue: </label>
-                <output name="brokerrevenue" id="brokerrevenue"><?php
+                <input name="brokerrevenue" id="brokerrevenue" value="<?php
                         if(isset($_POST['brokerrevenue']) && !$insertOK){
                             echo (int)$_POST['brokerrevenue'];
                         }else {
                             htmlout($brokerrevenue);
                         }
-                    ?></output>
+                    ?>" readonly>
             </div>
             <div>
                 <label for="comment"

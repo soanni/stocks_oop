@@ -63,13 +63,13 @@
                                         echo 'No';
                                     }
                                     ?></td>
-                        <td><?php htmlout((float)$order->_stopPrice);?></td>
+                        <td><?php htmlout((float)$order->_stopPrice?(float)$order->_stopPrice:'');?></td>
                         <td><?php if($order->_takeProfit){
                                         echo 'Yes';
                                     } else{
                                         echo 'No';
                                     }?></td>
-                        <td><?php htmlout((float)$order->_takePrice);?></td>
+                        <td><?php htmlout((float)$order->_takePrice?(float)$order->_takePrice:'');?></td>
                         <td><?php htmlout((float)$order->_sumTotal);?></td>
                         <td><?php htmlout((float)$order->_brokerRevenue);?></td>
                         <td><?php htmlout($order->_orcomment);?></td>
