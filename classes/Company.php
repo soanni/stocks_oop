@@ -8,11 +8,31 @@
         protected $countryId;
         private $activeFlag;
 
-        public function __construct($id,$name,$web,$country_id, $country_name, $acronym){
-            parent::__construct($country_id, $country_name, $acronym);
-            $this->companyId = $id;
-            $this->companyName = $name;
-            $this->companyWeb = $web;
+        public function __construct($id){
+            include '../helpers/db_new.inc.php';
+            $sql = 'SELECT
+                        companyname,
+                        web,
+                        countryid
+                    FROM companies
+                    WHERE companyid = :id';
+            try{
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':id',$id);
+                $stmt->execute();
+            }catch(PDOException $e){
+                $error = $e->getMessage();
+                $redirect = '../error.html.php';
+                header("Location: $redirect");
+                exit;
+            }
+            $row = $stmt->fetch();
+            if($row){
+                parent::__construct($row['countryid']);
+                $this->companyId = $id;
+                $this->companyName = $row['companyname'];
+                $this->companyWeb = $row['web'];
+            }
         }
 
         ///////////////// getters and setters /////////////////////////////////
@@ -76,18 +96,9 @@
             include '../helpers/db_new.inc.php';
             $companies = array();
             try{
-                $sql = "SELECT
-                            c.companyid,
-                            cc.countryid,
-                            c.companyname,
-                            c.web,
-                            cc.countryname,
-                            cc.acronym
-                        FROM companies c
-                        INNER JOIN countries cc USING(countryid)
-                        WHERE ActiveFlag=1";
+                $sql = "SELECT companyid FROM companies WHERE ActiveFlag=1";
                 foreach($pdo->query($sql) as $row) {
-                    $companies[] = new Company($row['companyid'],$row['companyname'],$row['web'],$row['countryid'],$row['countryname'],$row['acronym']);
+                    $companies[] = new Company($row['companyid']);
                 }
             }catch(PDOException $e){
                 $error = 'Error fetching companies: ' . $e->getMessage();

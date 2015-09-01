@@ -4,11 +4,30 @@
         protected $_countryName;
         protected $_countryAcronym;
 
-        public function __construct($id,$name,$acronym){
-            $this->_countryid = $id;
-            $this->_countryName = $name;
-            $this->_countryAcronym = $acronym;
-            return true;
+        public function __construct($id){
+            include '../helpers/db_new.inc.php';
+            $sql = 'SELECT
+                        countryname,
+                        acronym
+                    FROM countries
+                    WHERE countryid = :id';
+            try{
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':id',$id);
+                $stmt->execute();
+            }catch(PDOException $e){
+                $error = $e->getMessage();
+                $redirect = '../error.html.php';
+                header("Location: $redirect");
+                exit;
+            }
+            $row = $stmt->fetch();
+            if($row){
+                $this->_countryid = $id;
+                $this->_countryName = $row['countryname'];
+                $this->_countryAcronym = $row['acronym'];
+            }
+
         }
 
         // getters
@@ -34,7 +53,7 @@
             include '../helpers/db_new.inc.php';
             $countries = array();
             try{
-                $sql = 'SELECT countryid,countryname,acronym FROM countries';
+                $sql = 'SELECT countryid FROM countries';
                 if(!is_null($id)){
                     $sql .= ' WHERE countryid = :id';
                     $stmt = $pdo->prepare($sql);
@@ -50,7 +69,7 @@
                 exit();
             }
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                array_push($countries,new Country($row['countryid'],$row['countryname'],$row['acronym']));
+                array_push($countries,new Country($row['countryid']));
             }
 
             return $countries;

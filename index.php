@@ -36,6 +36,18 @@
         header("Location: $redirect");
         exit;
     }
+//SELECT
+//m.accountid
+//,m.qid
+//,q.acronym
+//,q.fullname
+//,SUM(CASE
+//		WHEN movetype = 1 THEN amount
+//		ELSE -1 * amount
+//	END) as sum
+//FROM stocks_new.movements m
+//INNER JOIN stocks_new.quotes q ON m.qid = q.qid
+//group by accountid,qid HAVING sum > 0
 
 ?>
 <!DOCTYPE html>

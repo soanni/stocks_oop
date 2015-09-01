@@ -8,15 +8,39 @@
         protected $_exchid;
         protected $_privileged;
 
-        public function __construct($qid, $qName, $qShortName, $qEnglish, $qAcronym, $exchid, $priveleged, $compid, $compName,$compWeb, $countryId, $countryName, $countryAcronym){
-            parent::__construct($compid,$compName,$compWeb,$countryId, $countryName, $countryAcronym);
-            $this->_qid = $qid;
-            $this->_quoteName = $qName;
-            $this->_quoteShortName = $qShortName;
-            $this->_englishName = $qEnglish;
-            $this->_acronym = $qAcronym;
-            $this->_exchid = $exchid;
-            $this->_privileged = $priveleged;
+        public function __construct($qid){
+            include '../helpers/db_new.inc.php';
+            $sql = 'SELECT
+                        fullname
+                        ,shortname
+                        ,englishname
+                        ,acronym
+                        ,exchid
+                        ,companyid
+                        ,privileged
+                    FROM quotes
+                    WHERE qid = :qid AND ActiveFlag = 1';
+            try{
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':qid',$qid);
+                $stmt->execute();
+            }catch(PDOException $e){
+                $error = $e->getMessage();
+                $redirect = '../error.html.php';
+                header("Location: $redirect");
+                exit;
+            }
+            $row = $stmt->fetch();
+            if($row){
+                parent::__construct($row['companyid']);
+                $this->_qid = $qid;
+                $this->_quoteName = $row['fullname'];
+                $this->_quoteShortName = $row['shortname'];
+                $this->_englishName = $row['englishname'];
+                $this->_acronym = $row['acronym'];
+                $this->_exchid = $row['exchid'];
+                $this->_privileged = $row['privileged'];
+            }
         }
 
         // overriden
@@ -80,39 +104,19 @@
             include '../helpers/db_new.inc.php';
             $quotes = array();
             try{
-                $sql = "SELECT
-                            q.qid
-                            ,q.fullname
-                            ,q.shortname
-                            ,q.englishname
-                            ,q.acronym as qAcronym
-                            ,q.exchid
-                            ,c.companyid
-                            ,c.companyname
-                            ,c.web
-                            ,cc.countryid
-                            ,cc.countryname
-                            ,cc.acronym as ccAcronym
-                            ,q.privileged
-                        FROM quotes q
-                        INNER JOIN companies c USING(companyid)
-                        INNER JOIN countries cc USING(countryid)";
+                $sql = "SELECT qid FROM quotes";
                 if(isset($compid) && isset($exchid)){
-                    $sql .= " WHERE q.exchid = :exchid AND q.companyid = :compid";
+                    $sql .= " WHERE exchid = :exchid AND companyid = :compid";
                     $stmt = $pdo->prepare($sql);
                     $stmt->bindParam(':exchid',$exchid);
                     $stmt->bindParam(':compid',$compid);
                     $stmt->execute();
                     while($row = $stmt->fetch()){
-                        $quotes[]   = new Quote($row['qid'],$row['fullname'],$row['shortname'],$row['englishname'],
-                                                $row['qAcronym'],$row['exchid'],$row['privileged'],$row['companyid'],$row['companyname'],$row['web'],$row['countryid']
-                                                ,$row['countryname'],$row['ccAcronym']);
+                        $quotes[]   = new Quote($row['qid']);
                     }
                 }else{
                     foreach($pdo->query($sql) as $row){
-                        $quotes[]   = new Quote($row['qid'],$row['fullname'],$row['shortname'],$row['englishname'],
-                                                $row['qAcronym'],$row['exchid'],$row['privileged'],$row['companyid'],$row['companyname'],$row['web'],$row['countryid']
-                                                ,$row['countryname'],$row['ccAcronym']);
+                        $quotes[]   = new Quote($row['qid']);
                     }
                 }
             }catch(PDOException $e){
