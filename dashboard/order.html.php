@@ -1,5 +1,4 @@
 <?php
-    include '../helpers/db_new.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Date.php';
     require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Validator.php';
@@ -66,7 +65,8 @@
                         orcomment,
                         parentid,
                         changedate,
-                        activeflag)
+                        activeflag,
+                        accountid)
                     VALUES
                         (:ordate,
                         :ortype,
@@ -87,6 +87,7 @@
                         :orcomment,
                         NULL,
                         NOW(),
+                        1,
                         1)";
             try{
                 $stmt = $pdo->prepare($sql);

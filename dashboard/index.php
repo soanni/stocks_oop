@@ -1,4 +1,5 @@
 <?php
+    include '../helpers/db_new.inc.php';
 
     ///////////////////// NEW ORDER
 
@@ -24,6 +25,21 @@
 
         include 'order.html.php';
         exit();
+    }
+
+    if(isset($_POST['deleteOrder'])){
+        $sql = 'UPDATE orders SET ActiveFlag = 0 WHERE orid = :orid';
+        $orid = $_POST['orid'];
+        try{
+            $stmt = $pdo->prepare($sql);
+            $stmt->bindParam(':orid',$orid);
+            $stmt->execute();
+        }catch(PDOException $e){
+            $error = 'Error updating order.' . $e->getMessage();
+        }
+        if($stmt->rowCount()){
+            $success = "Order $orid updated successfully";
+        }
     }
 
     include 'securities.html.php';

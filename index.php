@@ -1,3 +1,43 @@
+<?php
+    session_name('stockLogin');
+    session_start();
+    if(!isset($_SESSION['id'])){
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time()-86400, '/');
+        }
+        session_destroy();
+    }
+
+    $redirect = 'index.php';
+
+    if(isset($_POST['submit']) && $_POST['submit'] == 'Register'){
+        $username = trim($_POST['signup']);
+        $password = trim($_POST['password']);
+        $retyped = trim($_POST['retyped']);
+        $email = trim($_POST['email']);
+        require_once('helpers/register_user_db.inc.php');
+    }
+    if(isset($_POST['submit']) && $_POST['submit'] == 'Login'){
+        session_name('stockLogin');
+        session_start();
+        $username = trim($_POST['log']);
+        $pwd = trim($_POST['pwd']);
+        $rememberMe = isset($_POST['rememberme']);
+        require_once('helpers/authenticate_db.inc.php');
+    }
+
+    if(isset($_GET['logoff']))
+    {
+        $_SESSION = array();
+        if (isset($_COOKIE[session_name()])) {
+            setcookie(session_name(), '', time()-86400, '/');
+        }
+        session_destroy();
+        header("Location: $redirect");
+        exit;
+    }
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,30 +53,45 @@
         <div id="toppanel">
             <div id="panel">
                 <div class="content clearfix">
-                    <div class="left">
-                        <form class="clearfix" action="#" method="post">
-                            <h1>Member Login</h1>
-                            <label class="grey" for="log">Username:</label>
-                            <input class="field" type="text" name="log" id="log" value="" size="23" />
-                            <label class="grey" for="pwd">Password:</label>
-                            <input class="field" type="password" name="pwd" id="pwd" size="23" />
-                            <label><input name="rememberme" id="rememberme" type="checkbox" checked="checked" value="forever" /> &nbsp;Remember me</label>
-                            <div class="clear"></div>
-                            <input type="submit" name="submit" value="Login" class="bt_login" />
-                            <a class="lost-pwd" href="#">Lost your password?</a>
-                        </form>
-                    </div>
-                    <div class="left right">
-                        <form action="#" method="post">
-                            <h1>Not a member yet? Sign Up!</h1>
-                            <label class="grey" for="signup">Username:</label>
-                            <input class="field" type="text" name="signup" id="signup" value="" size="23" />
-                            <label class="grey" for="email">Email:</label>
-                            <input class="field" type="text" name="email" id="email" size="23" />
-                            <label>A password will be e-mailed to you.</label>
-                            <input type="submit" name="submit" value="Register" class="bt_register" />
-                        </form>
-                    </div>
+                    <?php if(!isset($_SESSION['id'])):?>
+                        <div class="left">
+                            <form class="clearfix" action="#" method="post">
+                                <h1>Member Login</h1>
+                                <label class="grey" for="log">Username:</label>
+                                <input class="field" type="text" name="log" id="log" value="" size="23" />
+                                <label class="grey" for="pwd">Password:</label>
+                                <input class="field" type="password" name="pwd" id="pwd" size="23" />
+                                <label><input name="rememberme" id="rememberme" type="checkbox" checked="checked" value="forever" /> &nbsp;Remember me</label>
+                                <div class="clear"></div>
+                                <input type="submit" name="submit" value="Login" class="bt_login" />
+                                <a class="lost-pwd" href="#">Lost your password?</a>
+                            </form>
+                        </div>
+                        <div class="left right">
+                            <form action="#" method="post">
+                                <h1>Not a member yet? Sign Up!</h1>
+                                <label class="grey" for="signup">Username:</label>
+                                <input class="field" type="text" name="signup" id="signup" value="" size="23" />
+                                <label class="grey" for="email">Email:</label>
+                                <input class="field" type="email" name="email" id="email" size="23" />
+                                <label class="grey" for="password">Password:</label>
+                                <input class="field" type="password" name="password" id="password" size="23" />
+                                <label class="grey" for="retyped">Retyped password:</label>
+                                <input class="field" type="password" name="retyped" id="retyped" size="23" />
+                                <input type="submit" name="submit" value="Register" class="bt_register" />
+                            </form>
+                        </div>
+                    <?php else: ?>
+                        <div class="left">
+                            <h1>Members panel</h1>
+                            <p>You can put member-only data here</p>
+                            <a href="registered.php">View a special member page</a>
+                            <p>- or -</p>
+                            <a href="?logoff">Log off</a>
+                        </div>
+                        <div class="left right">
+                        </div>
+                    <?php endif;?>
                 </div>
             </div>
             <div class="tab">
@@ -54,6 +109,19 @@
         </div>
 
         <div class="container_16">
+            <?php
+                if(isset($result) || isset($errors) || isset($error)){
+                    echo '<ul>';
+                    if(!empty($errors)){
+                        foreach($errors as $item){
+                            echo "<li>$item</li>";
+                        }
+                    }else{
+                        echo "<li>$result</li>";
+                    }
+                    echo '</ul>';
+                }
+            ?>
             <h2>Welcome</h2>
             <div id="navigation" class="grid_5 suffix_1">
                 <div>
@@ -97,6 +165,11 @@
                     <li><a href = "micex.php?ind=2">MICEX</a></li>
                 </ul>
             </div>
+            <?php
+                if(isset($_SESSION['id'])){
+                // portfolio output
+                }
+            ?>
          </div>
 
         <script src="js/jquery-1.7.1.min.js" type="text/javascript" ></script>
