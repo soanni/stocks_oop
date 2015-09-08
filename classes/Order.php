@@ -22,7 +22,7 @@
         }
 
         public function __construct($_orid){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             $sql = 'SELECT
                         ordate
                         ,ortype
@@ -78,7 +78,7 @@
         }
 
         public static function getOrders($active=1){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             $orders = array();
             $sql = "SELECT orid FROM orders WHERE ActiveFlag = $active";
             foreach($pdo->query($sql) as $row){

@@ -5,7 +5,7 @@
         protected $_countryAcronym;
 
         public function __construct($id){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             $sql = 'SELECT
                         countryname,
                         acronym
@@ -50,7 +50,7 @@
 
         //select
         public static function getCountries($id=NULL){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             $countries = array();
             try{
                 $sql = 'SELECT countryid FROM countries';
@@ -78,7 +78,7 @@
 
         // update
         public static function updateCountry($id,$name,$acronym){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             try{
                 $sql = 'UPDATE countries SET countryname = :name,acronym = :acronym WHERE countryid = :id';
                 $s = $pdo->prepare($sql);
@@ -94,7 +94,7 @@
 
         // insert
         public static function insertCountry($name,$acronym){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
 
             try{
                 $sql = 'INSERT INTO countries SET countryname = :name, acronym = :acronym';

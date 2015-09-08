@@ -1,5 +1,4 @@
 <?php
-    include 'Country.php';
 
     class Company extends Country{
         protected $companyId;
@@ -9,7 +8,7 @@
         private $activeFlag;
 
         public function __construct($id){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             $sql = 'SELECT
                         companyname,
                         web,
@@ -93,7 +92,7 @@
 
         // static
         public static function getCompanies(){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             $companies = array();
             try{
                 $sql = "SELECT companyid FROM companies WHERE ActiveFlag=1";

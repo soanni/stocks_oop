@@ -1,5 +1,6 @@
 <?php
-    require_once '../classes/Country.php';
+    require_once 'autoload.inc.php';
+
 	// ADD AND EDIT COUNTRIES
 	
 	// ADD

@@ -1,5 +1,4 @@
 <?php
-    require_once(__DIR__.'/../classes/CheckPassword.php');
     $usernameMinChars = 6;
     $errors = array();
     if(strlen($username) < $usernameMinChars){
@@ -9,7 +8,7 @@
         $errors[] = "Username must not contain spaces";
     }
 
-    $checkPwd = new CheckPassword($password);
+    $checkPwd = new Pos_CheckPassword($password);
     $checkPwd->requireMixedCase();
     $checkPwd->requireNumbers(1);
     //$checkPwd->requireSymbols();
@@ -22,7 +21,7 @@
         $errors[] = "Your passwords don't match";
     }
     if(!$errors){
-        require_once(__DIR__.'/db_new.inc.php');
+        require_once('db_new.inc.php');
         $salt = time();
         $pwd = sha1($password . $salt);
         try{

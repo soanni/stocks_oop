@@ -1,6 +1,5 @@
 <?php
-    require_once '../classes/Currency.php';
-    require_once '../classes/Country.php';
+    require_once 'autoload.inc.php';
 	// SELECT LIST OF COUNTRIES
 
     $countries = Country::getCountries();

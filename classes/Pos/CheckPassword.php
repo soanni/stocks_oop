@@ -1,6 +1,6 @@
 <?php
 
-class CheckPassword{
+class Pos_CheckPassword{
     protected $_password;
     protected $_minimumChars;
     protected $_minimumNumbers = 0;

@@ -1,4 +1,6 @@
 <?php
+    require_once 'autoload.inc.php';
+
     session_name('stockLogin');
     session_start();
     if(!isset($_SESSION['id'])){
@@ -15,7 +17,7 @@
         $password = trim($_POST['password']);
         $retyped = trim($_POST['retyped']);
         $email = trim($_POST['email']);
-        require_once('helpers/register_user_db.inc.php');
+        require_once('register_user_db.inc.php');
     }
     if(isset($_POST['submit']) && $_POST['submit'] == 'Login'){
         session_name('stockLogin');
@@ -23,7 +25,7 @@
         $username = trim($_POST['log']);
         $pwd = trim($_POST['pwd']);
         $rememberMe = isset($_POST['rememberme']);
-        require_once('helpers/authenticate_db.inc.php');
+        require_once('authenticate_db.inc.php');
     }
 
     if(isset($_GET['logoff']))
@@ -36,19 +38,6 @@
         header("Location: $redirect");
         exit;
     }
-//SELECT
-//m.accountid
-//,m.qid
-//,q.acronym
-//,q.fullname
-//,SUM(CASE
-//		WHEN movetype = 1 THEN amount
-//		ELSE -1 * amount
-//	END) as sum
-//FROM stocks_new.movements m
-//INNER JOIN stocks_new.quotes q ON m.qid = q.qid
-//group by accountid,qid HAVING sum > 0
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -96,7 +85,10 @@
                     <?php else: ?>
                         <div class="left">
                             <h1>Members panel</h1>
-                            <p>You can put member-only data here</p>
+                            <?php
+                                $prt = new Portfolio('20150903');
+                                $prt->printPortfolio();
+                            ?>
                             <a href="registered.php">View a special member page</a>
                             <p>- or -</p>
                             <a href="?logoff">Log off</a>
@@ -177,11 +169,6 @@
                     <li><a href = "micex.php?ind=2">MICEX</a></li>
                 </ul>
             </div>
-            <?php
-                if(isset($_SESSION['id'])){
-                // portfolio output
-                }
-            ?>
          </div>
 
         <script src="js/jquery-1.7.1.min.js" type="text/javascript" ></script>

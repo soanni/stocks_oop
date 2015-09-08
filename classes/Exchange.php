@@ -47,7 +47,7 @@
 
         // select
         public static function getExchanges($id = NULL){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             $exchanges = array();
             try{
                 $sql = 'SELECT exchid,exchname,web FROM exchanges';
@@ -75,7 +75,7 @@
         // update
 
         public static function updateExchange($id,$name,$web){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
 
             try{
                 $sql = 'UPDATE exchanges SET exchname = :name,web = :web WHERE exchid = :id';
@@ -94,7 +94,7 @@
         // insert
 
         public static function insertExchange($name,$web){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             try{
                 $sql = 'INSERT INTO exchanges SET exchname = :name, web = :web';
                 $s = $pdo->prepare($sql);

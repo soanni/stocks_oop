@@ -1,9 +1,7 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
-    require_once('../classes/Company.php');
-    require_once('../classes/Quote.php');
-    require_once('../classes/Order.php');
-    require_once('../classes/Date.php');
+    require_once 'autoload.inc.php';
+    //var_dump(spl_autoload_functions());
     $orders = Order::getOrders();
 ?>
 <html>

@@ -1,11 +1,6 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Date.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Validator.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Currency.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Exchange.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Company.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Quote.php';
+    require_once 'autoload.inc.php';
 
     $date = new Pos_Date();
     $now = $date->mysql;

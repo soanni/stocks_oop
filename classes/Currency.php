@@ -38,7 +38,7 @@
 
         //select
         public static function getCurrencies($id=NULL){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             $currencies = array();
             try{
                 $sql = 'SELECT cc.countryname as country
@@ -70,7 +70,7 @@
         // insert
 
         public static function insertCurrency($name,$acronym,$country){
-            include '../helpers/db_new.inc.php';
+            include 'db_new.inc.php';
             try{
                 $sql = 'INSERT INTO currencies SET curname = :name, acronym = :acronym, countryid = :countryid';
                 $s = $pdo->prepare($sql);

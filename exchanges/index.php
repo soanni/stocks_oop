@@ -1,7 +1,7 @@
 <?php
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db_new.inc.php';
-    require_once '../classes/Exchange.php';
-    include_once $_SERVER['DOCUMENT_ROOT'] . '/includes/magicquotes.inc.php';
+    require_once 'autoload.inc.php';
+    require_once 'db_new.inc.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/magicquotes.inc.php';
 
 	
 	if(isset($_POST['action']) and $_POST['action'] == 'Delete'){
