@@ -1,6 +1,6 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
-    require_once 'autoload.inc.php';
+    require_once '../helpers/helpers.inc.php';
+    require_once '../helpers/autoload.inc.php';
 
     $date = new Pos_Date();
     $now = $date->mysql;

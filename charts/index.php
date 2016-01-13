@@ -1,5 +1,5 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'] . '/includes/db_new.inc.php';
+	include '../helpers/db_new.inc.php';
 	
 	// GET COMPANIES LIST ///////////////////
 	try{

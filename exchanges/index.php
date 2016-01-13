@@ -1,7 +1,7 @@
 <?php
-    require_once 'autoload.inc.php';
-    require_once 'db_new.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/magicquotes.inc.php';
+    require_once '../helpers/autoload.inc.php';
+    require_once '../helpers/db_new.inc.php';
+    require_once '../helpers/magicquotes.inc.php';
 
 	
 	if(isset($_POST['action']) and $_POST['action'] == 'Delete'){
@@ -14,7 +14,7 @@
 		}
 		catch(PDOException $e){
 			$error = 'Error fetching quotes: ' . $e->getMessage();
-			include 'error.html.php';
+			include '../helpers/error.html.php';
 			exit();
 		}
 		$result = $s->fetchAll();
@@ -30,7 +30,7 @@
         }			
 		catch(PDOException $e){
 			$error = 'Error deleting rates: ' . $e->getMessage();
-			include 'error.html.php';
+			include '../helpers/error.html.php';
 			exit();
 		}
 		
@@ -43,7 +43,7 @@
         }			
 		catch(PDOException $e){
 			$error = 'Error deleting quotes: ' . $e->getMessage();
-			include 'error.html.php';
+			include '../helpers/error.html.php';
 			exit();
 		}
 		
@@ -57,7 +57,7 @@
         }			
 		catch(PDOException $e){
 			$error = 'Error deleting exchanges: ' . $e->getMessage();
-			include 'error.html.php';
+			include '../helpers/error.html.php';
 			exit();
 		}
 		
@@ -92,9 +92,9 @@
         $row = $arr[0];
 		$pageTitle = 'Edit Exchange';
 		$action = 'editform';
-		$name = $row->name;
-		$web = $row->web;
-		$id = $row->id;
+		$name = $row->_name;
+		$web = $row->_web;
+		$id = $row->_id;
 		$button = 'Update exchange';
 		include 'form.html.php';
 		exit();

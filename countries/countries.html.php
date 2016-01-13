@@ -1,4 +1,6 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php'; ?>
+<?php
+	include_once '../helpers/helpers.inc.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 	<head>

@@ -1,6 +1,6 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'] . '/includes/db_new.inc.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/includes/access.inc.php';
+	include '../helpers/db_new.inc.php';
+    require_once '../helpers/access.inc.php';
 
 //    if(!isUserLoggedIn()) {
 //        include '../login.html.php';

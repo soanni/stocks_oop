@@ -1,6 +1,4 @@
 <?php
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Company.php';
-    require_once $_SERVER['DOCUMENT_ROOT'] . '/stocks_oop/classes/Quote.php';
     if(isset($_POST['ajax_companyid']) && isset($_POST['ajax_exchid'])){
         $quotes = Quote::getQuotes($_POST['ajax_companyid'],$_POST['ajax_exchid']);
         if(empty($quotes)){

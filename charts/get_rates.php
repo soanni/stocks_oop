@@ -1,5 +1,5 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'] . '/includes/db_new.inc.php';
+	include '../helpers/db_new.inc.php';
 	/////////////// AJAX
 	if(isset($_POST['companyid']) and isset($_POST['startdate']) and isset($_POST['enddate'])){
     try{

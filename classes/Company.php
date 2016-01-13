@@ -1,14 +1,14 @@
 <?php
 
     class Company extends Country{
-        protected $companyId;
-        protected $companyName;
-        protected $companyWeb;
-        protected $countryId;
-        private $activeFlag;
+        protected $_companyId;
+        protected $_companyName;
+        protected $_companyWeb;
+        protected $_countryId;
+        private $_activeFlag;
 
         public function __construct($id){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
             $sql = 'SELECT
                         companyname,
                         web,
@@ -28,9 +28,9 @@
             $row = $stmt->fetch();
             if($row){
                 parent::__construct($row['countryid']);
-                $this->companyId = $id;
-                $this->companyName = $row['companyname'];
-                $this->companyWeb = $row['web'];
+                $this->_companyId = $id;
+                $this->_companyName = $row['companyname'];
+                $this->_companyWeb = $row['web'];
             }
         }
 
@@ -42,57 +42,32 @@
 
         public function getCompanyId()
         {
-            return $this->companyId;
-        }
-
-        public function setCompanyId($companyId)
-        {
-            $this->companyId = $companyId;
+            return $this->_companyId;
         }
 
         public function getCompanyName()
         {
-            return $this->companyName;
-        }
-
-        public function setCompanyName($companyName)
-        {
-            $this->companyName = $companyName;
+            return $this->_companyName;
         }
 
         public function getCompanyWeb()
         {
-            return $this->companyWeb;
-        }
-
-        public function setCompanyWeb($companyWeb)
-        {
-            $this->companyWeb = $companyWeb;
+            return $this->_companyWeb;
         }
 
         public function getCountryId()
         {
-            return $this->countryId;
-        }
-
-        public function setCountryId($countryId)
-        {
-            $this->countryId = $countryId;
+            return $this->_countryId;
         }
 
         public function getActiveFlag()
         {
-            return $this->activeFlag;
-        }
-
-        public function setActiveFlag($activeFlag)
-        {
-            $this->activeFlag = $activeFlag;
+            return $this->_activeFlag;
         }
 
         // static
         public static function getCompanies(){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
             $companies = array();
             try{
                 $sql = "SELECT companyid FROM companies WHERE ActiveFlag=1";

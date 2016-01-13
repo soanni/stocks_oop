@@ -1,53 +1,44 @@
 <?php
     class Exchange{
-        private $id;
-        private $name;
-        private $web;
+        private $_id;
+        private $_name;
+        private $_web;
 
         public function __construct($name,$id,$web){
-            $this->id = $id;
-            $this->name = $name;
-            $this->web = $web;
-            return true;
+            $this->_id = $id;
+            $this->_name = $name;
+            $this->_web = $web;
         }
 
         ////////////////////// getters and setters ////////////////////////////////////////
 
-        public function getName()
-        {
-            return $this->name;
+        public function __get($property){
+            if (property_exists($this, $property)) {
+                return $this->$property;
+            }
         }
 
-        public function setName($name)
+        public function getName()
         {
-            $this->name = $name;
+            return $this->_name;
         }
 
         public function getWeb()
         {
-            return $this->web;
+            return $this->_web;
         }
 
-        public function setWeb($web)
-        {
-            $this->web = $web;
-        }
 
         public function getId()
         {
-            return $this->id;
-        }
-
-        public function setId($id)
-        {
-            $this->id = $id;
+            return $this->_id;
         }
 
         //////////////// static methods ///////////////////////////////
 
         // select
         public static function getExchanges($id = NULL){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
             $exchanges = array();
             try{
                 $sql = 'SELECT exchid,exchname,web FROM exchanges';
@@ -63,7 +54,7 @@
             }
             catch (PDOException $e){
                 $error = 'Error fetching exchanges: ' . $e->getMessage();
-                include 'error.html.php';
+                include '../helpers/error.html.php';
                 exit();
             }
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -75,7 +66,7 @@
         // update
 
         public static function updateExchange($id,$name,$web){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
 
             try{
                 $sql = 'UPDATE exchanges SET exchname = :name,web = :web WHERE exchid = :id';
@@ -84,7 +75,7 @@
             }
             catch (PDOException $e){
                 $error = 'Error updating submitted exchange.';
-                include 'error.html.php';
+                include '../helpers/error.html.php';
                 exit();
             }
 
@@ -94,7 +85,7 @@
         // insert
 
         public static function insertExchange($name,$web){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
             try{
                 $sql = 'INSERT INTO exchanges SET exchname = :name, web = :web';
                 $s = $pdo->prepare($sql);
@@ -102,7 +93,7 @@
             }
             catch (PDOException $e){
                 $error = 'Error adding submitted exchange.';
-                include 'error.html.php';
+                include '../helpers/error.html.php';
                 exit();
             }
             return $pdo->lastInsertId();

@@ -5,7 +5,7 @@
         protected $_countryAcronym;
 
         public function __construct($id){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
             $sql = 'SELECT
                         countryname,
                         acronym
@@ -30,6 +30,12 @@
 
         }
 
+        public function __get($property){
+            if (property_exists($this, $property)) {
+                return $this->$property;
+            }
+        }
+
         // getters
         public function getCountryid()
         {
@@ -50,7 +56,7 @@
 
         //select
         public static function getCountries($id=NULL){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
             $countries = array();
             try{
                 $sql = 'SELECT countryid FROM countries';
@@ -78,7 +84,7 @@
 
         // update
         public static function updateCountry($id,$name,$acronym){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
             try{
                 $sql = 'UPDATE countries SET countryname = :name,acronym = :acronym WHERE countryid = :id';
                 $s = $pdo->prepare($sql);
@@ -94,7 +100,7 @@
 
         // insert
         public static function insertCountry($name,$acronym){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
 
             try{
                 $sql = 'INSERT INTO countries SET countryname = :name, acronym = :acronym';

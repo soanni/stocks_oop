@@ -1,6 +1,6 @@
 <?php
-    include $_SERVER['DOCUMENT_ROOT'] . '/includes/db_new.inc.php';
-	include $_SERVER['DOCUMENT_ROOT'] . '/includes/helpers.inc.php';
+    include '../helpers/db_new.inc.php';
+	include '../helpers/helpers.inc.php';
 	// GET INDICES LIST
     try{
         $sql = 'SELECT

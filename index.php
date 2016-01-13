@@ -1,5 +1,5 @@
 <?php
-    require_once 'autoload.inc.php';
+    require_once 'helpers/autoload.inc.php';
 
     session_name('stockLogin');
     session_start();
@@ -17,7 +17,7 @@
         $password = trim($_POST['password']);
         $retyped = trim($_POST['retyped']);
         $email = trim($_POST['email']);
-        require_once('register_user_db.inc.php');
+        require_once('helpers/register_user_db.inc.php');
     }
     if(isset($_POST['submit']) && $_POST['submit'] == 'Login'){
         session_name('stockLogin');
@@ -25,7 +25,7 @@
         $username = trim($_POST['log']);
         $pwd = trim($_POST['pwd']);
         $rememberMe = isset($_POST['rememberme']);
-        require_once('authenticate_db.inc.php');
+        require_once('helpers/authenticate_db.inc.php');
     }
 
     if(isset($_GET['logoff']))

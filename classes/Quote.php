@@ -9,7 +9,7 @@
         protected $_privileged;
 
         public function __construct($qid){
-            include('db_new.inc.php');
+            include('../helpers/db_new.inc.php');
             $sql = 'SELECT
                         fullname
                         ,shortname
@@ -101,7 +101,7 @@
         }
 
         public static function getQuotes($compid = null, $exchid = null){
-            include 'db_new.inc.php';
+            include '../helpers/db_new.inc.php';
             $quotes = array();
             try{
                 $sql = "SELECT qid FROM quotes";

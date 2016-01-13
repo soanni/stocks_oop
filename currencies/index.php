@@ -1,5 +1,5 @@
 <?php
-    require_once 'autoload.inc.php';
+    require_once '../helpers/autoload.inc.php';
 	// SELECT LIST OF COUNTRIES
 
     $countries = Country::getCountries();

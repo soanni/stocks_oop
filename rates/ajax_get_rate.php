@@ -1,5 +1,5 @@
 <?php
-	include $_SERVER['DOCUMENT_ROOT'] . '/includes/db_new.inc.php';
+	include '../helpers/db_new.inc.php';
 	
 	if(isset($_POST['qid']) and isset($_POST['ratedate'])){
 		try{

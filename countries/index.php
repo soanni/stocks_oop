@@ -1,5 +1,5 @@
 <?php
-    require_once 'autoload.inc.php';
+    require_once '../helpers/autoload.inc.php';
 
 	// ADD AND EDIT COUNTRIES
 	
@@ -27,9 +27,9 @@
         $row = $arr[0];
 		$pageTitle = 'Edit Country';
 		$action = 'editform';
-		$countryname = $row->name;
-		$acronym = $row->acronym;
-		$id = $row->id;
+		$countryname = $row->getCountryName();
+		$acronym = $row->getCountryAcronym();
+		$id = $row->_id;
 		$button = 'Update country';
 		include 'form.html.php';
 		exit();
