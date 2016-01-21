@@ -1,0 +1,187 @@
+/*#quotes{
+	height: 500px;
+	overflow: auto;
+}
+
+body{
+	background-image: url('../img/dollar_wallpaper.jpg');
+}
+
+*/
+
+#navigation {
+  position: absolute;
+  width: inherit;
+  top: 0; 
+  right: 0;
+  margin: 0;
+}
+
+#navigation.fixed {
+    position: fixed;
+}
+
+#navigation li{
+  height:20px;
+  float:left;
+  list-style-type: none;
+  width:100px;
+  padding:3px;
+  border-right:1px solid #3687AF;
+  background-color: #015287;
+  background-repeat: no-repeat;
+  background-position: center 30px;
+}
+
+#navigation ul {
+  padding: 0;
+  margin: 0;
+}
+
+#navigation li a {
+  color: #FFFFFF;
+}
+
+#navigation #exchange {
+  background-image:url('../img/stock_opt.jpg');
+}
+#navigation #country {
+  background-image:url('../img/country_opt.jpg');
+}
+#navigation #currency {
+  background-image:url('../img/currency_opt.jpg');
+}
+#navigation #company {
+  background-image:url('../img/company_opt.jpg');
+}
+
+#navigation #quote {
+  background-image:url('../img/index_opt.jpg');
+}
+
+#navigation #rate {
+  background-image:url('../img/rate_opt.jpg');
+}
+
+#addrate input {
+  display: inline-block;
+}
+/* ///////////////// FORM /////////////////////////////////////// */
+#addrate div {
+  padding: 5px;
+  float: left;
+  clear: left;
+  width: 100%;
+}
+
+label {
+  display: block;
+}
+label.valid {
+  width: 24px;
+  background: url('../img/valid.png') center center no-repeat;
+  display: inline-block;
+  text-indent: -9999px;
+}
+
+label.error {
+  padding-left: 5px;
+  display: inline-block;
+}
+
+/*////////////////// RATES /////////////////////////////////////////*/
+
+table#rates{
+	border-collapse:collapse;
+}
+
+table#rates th, table#rates td{
+	padding: 4px;
+	//border: 1px solid #000066;
+}
+
+table#rates th{
+	font-size:x-small;
+	text-align: left;
+	//color: #ffffff;
+	padding-top: 0;
+	padding-bottom: 0;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+table#rates td{
+	font-size: small;
+}
+
+
+
+/*#navigation {
+  margin-bottom: 10px;
+}
+
+#navigation h5 {
+  margin:0;
+  padding:5px 0 5px 10px;
+  background-color:#94C5EB;
+  border-bottom:1px solid #fff;
+  color: #00314F;
+  font-weight:normal;
+}
+
+#navigation div {
+  height:120px;
+  background-color: #F4F4EE;
+  border-bottom:1px solid #fff;
+  position: relative;
+}
+
+#navigation img {
+  margin:10px;
+  background-color: #F4F4EE;
+}
+
+#navigation p {
+  position: absolute;
+  left: 120px;
+  top: 10px;
+  margin: 0 10px 0 0;
+  padding: 0;
+}
+
+.navigation li{
+	display: inline;
+	margin: 0;
+	padding: 0;
+}
+
+.navigation ul{
+	margin: 0;
+	padding: 0;	
+}
+
+.navigation {	
+	margin: 0 0 10px 0;
+	padding: 0;
+	list-style-type: none;	
+	position: relative;
+	z-index: 1;
+
+
+	float: none;
+	width: 100%;
+}
+
+.navigation a {
+	color: #015287;
+	display: inline-block;
+	padding: 5px;
+	text-decoration: none;
+}
+#navigation_blob{
+	top: 0;
+	background-color: #c0ffee;
+	position: absolute;
+	z-index: -1;
+}
+*/
